@@ -1,8 +1,22 @@
+require('dotenv').config();
 const express = require('express');
+const { default: mongoose } = require('mongoose');
 const app = express();
-const routes = require('./routes');
-const Middleware = require('./src/middlewares/middlewareGlobal');
+const mogoose = require('mongoose')
 
+// Vai emitir um evento ( " DB_CONNECTED " ) quando a conexão for estabelecida com sucesso
+mongoose.connect(process.env.CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true })
+        .then(() => {
+            console.log('Connected to MongoDB')
+            app.emit("DB_CONNECTED")
+        }).catch(err => {
+            console.log("Erro na conexão com o banco de dados: " + err)
+        })
+
+// Rotas
+const routes = require('./routes');
+// Midlleware
+const Middleware = require('./src/middlewares/middlewareGlobal');
 // URL
 app.use(express.urlencoded({ extended: true }));
 // Pasta pública de coisas estáticas
@@ -15,8 +29,11 @@ app.use(Middleware);
 // Rotas
 app.use(routes);
 
-
-app.listen(3000, () => {
-    console.log('Example app listening on port 3000!');
+// Só vai startar o servidor quando for emitido a conexão com o banco de dados
+app.on('DB_CONNECTED', () => {
+    app.listen(3000, () => {
+        console.log('Example app listening on port 3000!');
+        });
     });
+
     
