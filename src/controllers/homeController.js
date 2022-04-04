@@ -16,7 +16,7 @@ const HomeModel = require('../models/HomeModel');
     }).catch(err => {
         console.log('Erro ao consultar: ' + err);
     });
-    
+
     // Read
     HomeModel.find().then((dados) => {
         console.log('Todos os dados consultados com sucesso: ' + dados);
@@ -42,5 +42,15 @@ const HomeModel = require('../models/HomeModel');
     });
 
 exports.index = (req, res) => {
+    // Salvando algo na sessão
+    req.session.usuario = {
+        nome: 'Lucas',
+        logado: true
+    };
+
+    // Mensagens no flash que são excluidas a cada requisição
+    req.flash('info', req.session.usuario);
+    req.flash('error', 'error flash');
+
     res.render('index');
 }

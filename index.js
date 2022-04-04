@@ -13,6 +13,25 @@ mongoose.connect(process.env.CONNECTION_STRING, { useNewUrlParser: true, useUnif
             console.log("Erro na conexão com o banco de dados: " + err)
         })
 
+// Criando uma sessão do usuário no navegador salvando as informações no mongodb
+const session = require('express-session')
+const MongoStore = require('connect-mongo')(session);
+const flash = require('connect-flash');
+
+const sessionOptions = session({
+    secret: process.env.SECRET_KEY,
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24,
+        httpOnly: true
+    }
+});
+
+app.use(sessionOptions);
+app.use(flash());
+
 // Rotas
 const routes = require('./routes');
 // Midlleware
