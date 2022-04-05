@@ -1,16 +1,12 @@
 <%- include('includes/head') %>
 
 <body>
-
   <section class="container">
-    <h1>
-      <%= titulo %>
-    </h1>
-    <p>
-      <% numeros.forEach(num => { %>
-        <%= titulo %><br>
-      <% }); %>
-    </p>
+    <form action="/" method="post">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+     <label> Cliente </label>
+      <input type="text" name="cliente" value="">
+      <button>Enviar</button>
   </section>
-
+</body>
   <%- include('includes/footer') %>

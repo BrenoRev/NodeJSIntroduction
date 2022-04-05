@@ -54,10 +54,18 @@ exports.index = (req, res) => {
     // Mensagens no flash que são excluidas a cada requisição
     req.flash('info', req.session.usuario);
     req.flash('error', 'error flash');
-*/
+    */
     res.render('index', {
         titulo: 'Home',
         numeros: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     });
     return;
 }
+
+
+exports.postUser = (req, res) => {
+    console.log(req.body);
+    return;
+}
+
+

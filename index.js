@@ -17,6 +17,10 @@ mongoose.connect(process.env.CONNECTION_STRING, { useNewUrlParser: true, useUnif
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
+const helmet = require('helmet')
+const csrf = require('csurf')
+app.use(helmet());
+
 
 const sessionOptions = session({
     secret: process.env.SECRET_KEY,
@@ -36,6 +40,7 @@ app.use(flash());
 const routes = require('./routes');
 // Midlleware
 const Middleware = require('./src/middlewares/middlewareGlobal');
+const {checkCsrfError, csrfMiddleware} = require('./src/middlewares/csrfMiddleware');
 // URL
 app.use(express.urlencoded({ extended: true }));
 // Pasta pública de coisas estáticas
@@ -43,8 +48,12 @@ app.use(express.static('public'));
 // Template engine front-end
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
+// CSRF
+app.use(csrf());
 //Midleware global para toda a aplicação
 app.use(Middleware);
+app.use(checkCsrfError);
+app.use(csrfMiddleware)
 // Rotas
 app.use(routes);
 
