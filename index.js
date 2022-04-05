@@ -50,7 +50,7 @@ app.use(routes);
 
 // Só vai startar o servidor quando for emitido a conexão com o banco de dados
 app.on('DB_CONNECTED', () => {
-    app.listen(3000, () => {
+    app.listen(3500, () => {
         console.log('Example app listening on port 3000!');
         });
     });

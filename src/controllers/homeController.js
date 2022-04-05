@@ -1,5 +1,6 @@
 const HomeModel = require('../models/HomeModel');
 
+/*
     // Create
     HomeModel.create({
     title: 'Harry potter',
@@ -40,8 +41,10 @@ const HomeModel = require('../models/HomeModel');
     }).catch(err => {
         console.log('Erro ao deletar: ' + err);
     });
+*/
 
 exports.index = (req, res) => {
+    /*
     // Salvando algo na sessão
     req.session.usuario = {
         nome: 'Lucas',
@@ -51,6 +54,10 @@ exports.index = (req, res) => {
     // Mensagens no flash que são excluidas a cada requisição
     req.flash('info', req.session.usuario);
     req.flash('error', 'error flash');
-
-    res.render('index');
+*/
+    res.render('index', {
+        titulo: 'Home',
+        numeros: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    });
+    return;
 }
